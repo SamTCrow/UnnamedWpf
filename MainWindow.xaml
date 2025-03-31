@@ -5,10 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:UnnamedWpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="clr-namespace:Engine.ViewModels;assembly=Engine"
     Title="Unnamed Game"
     Width="1200"
     Height="800"
-    FontSize="16px"
+    d:DataContext="{d:DesignInstance viewModels:GameSession}"
+    FontSize="18px"
     mc:Ignorable="d">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
@@ -176,6 +178,7 @@
                 Grid.Column="1"
                 Content="{Binding CurrentPlayer.Level}" />
         </Grid>
+        <!--  GamePlay  -->
         <Grid
             Grid.Row="1"
             Grid.RowSpan="2"
@@ -188,6 +191,25 @@
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
+            <!--  Game Messages  -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="0"
+                BorderBrush="Gainsboro"
+                BorderThickness="1"
+                CornerRadius="8">
+                <RichTextBox
+                    x:Name="GameMessages"
+                    Background="Beige"
+                    VerticalScrollBarVisibility="Auto">
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+            <!--  Current Location  -->
             <Border
                 Grid.Row="0"
                 Grid.Column="1"
@@ -216,8 +238,40 @@
                         TextWrapping="Wrap" />
                 </Grid>
             </Border>
+            <!--  Monster Info  -->
+            <Border
+                Grid.Row="1"
+                Grid.Column="1"
+                BorderBrush="Gainsboro"
+                CornerRadius="8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="AUto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Row="0"
+                        Height="Auto"
+                        HorizontalAlignment="Center"
+                        Text="{Binding CurrentMonster.Name}" />
+                    <Image
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{Binding CurrentMonster.ImageName}" />
+                    <StackPanel
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
+                        <TextBlock>Current Hit Points:</TextBlock>
+                        <TextBlock Text="{Binding CurrentMonster.HitPoints}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Grid>
-
+        <!--  Quest and inventory  -->
         <Grid
             Grid.Row="2"
             Grid.RowSpan="2"
@@ -241,8 +295,26 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <TabItem Header="Quests">
+                    <DataGrid
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="Column"
+                        ItemsSource="{Binding CurrentPlayer.Quests}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding PlayerQuest.Name}"
+                                Header="Name" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding IsComplete}"
+                                Header="Done?" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
             </TabControl>
         </Grid>
+        <!--  Controls  and Actions  -->
         <Grid
             Grid.Row="3"
             Grid.Column="1"
@@ -254,6 +326,36 @@
                 <ColumnDefinition Width="3*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
+            <!--  Combat controls  -->
+            <Grid
+                Grid.Row="0"
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="10px" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding CurrentPlayer.Weapons}"
+                    SelectedItem="{Binding CurrentWeapon}"
+                    SelectedValuePath="ID" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Click="OnClick_AttackMonster"
+                    Content="Use" />
+            </Grid>
+            <!--  Movement  -->
             <Grid Grid.Row="0" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
