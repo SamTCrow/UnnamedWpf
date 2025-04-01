@@ -1,18 +1,6 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Engine.Models;
 using Engine.ViewModels;
 
@@ -32,25 +20,25 @@ public partial class TradeScreen : Window
 
     private void OnClick_Sell(object sender, RoutedEventArgs e)
     {
-        var item = ((FrameworkElement)sender).DataContext as GameItem;
+        var item = ((FrameworkElement)sender).DataContext as GroupedInventoryItem;
         if (item != null)
         {
-            Session?.CurrentPlayer.AddGold(item.Price);
-            Session?.CurrentTrader?.AddItem(item);
-            Session?.CurrentPlayer.RemoveItem(item);
+            Session?.CurrentPlayer.AddGold(item.Item.Price);
+            Session?.CurrentTrader?.AddItem(item.Item);
+            Session?.CurrentPlayer.RemoveItem(item.Item);
         }
     }
 
     public void OnClick_Buy(object sender, RoutedEventArgs e)
     {
-        var item = ((FrameworkElement)sender).DataContext as GameItem;
+        var item = ((FrameworkElement)sender).DataContext as GroupedInventoryItem;
         if (item != null)
         {
-            if (Session?.CurrentPlayer.Gold >= item.Price)
+            if (Session?.CurrentPlayer.Gold >= item.Item.Price)
             {
-                Session.CurrentPlayer.RemoveGold(item.Price);
-                Session.CurrentTrader?.RemoveItem(item);
-                Session.CurrentPlayer.AddItem(item);
+                Session.CurrentPlayer.RemoveGold(item.Item.Price);
+                Session.CurrentTrader?.RemoveItem(item.Item);
+                Session.CurrentPlayer.AddItem(item.Item);
             }
             else
             {
