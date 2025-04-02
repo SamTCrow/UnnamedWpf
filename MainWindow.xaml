@@ -271,7 +271,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <!--  Quest and inventory  -->
+        <!--  Quest, Recipes and inventory  -->
         <Grid
             Grid.Row="2"
             Grid.RowSpan="2"
@@ -316,6 +316,20 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+
+                <TabItem Header="Recipes">
+                    <DataGrid
+                        AutoGenerateColumns="False"
+                        HeadersVisibility="Column"
+                        ItemsSource="{Binding CurrentPlayer.Recipes}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="*"
+                                Binding="{Binding Name}"
+                                Header="Name" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
             </TabControl>
         </Grid>
         <!--  Controls  and Actions  -->
@@ -335,8 +349,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}">
+                VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -349,15 +362,30 @@
                 <ComboBox
                     Grid.Row="0"
                     Grid.Column="0"
+                    MinWidth="150px"
                     DisplayMemberPath="Name"
                     ItemsSource="{Binding CurrentPlayer.Weapons}"
-                    SelectedItem="{Binding CurrentWeapon}"
-                    SelectedValuePath="ID" />
+                    SelectedItem="{Binding CurrentPlayer.CurrentWeapon}"
+                    Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}" />
                 <Button
                     Grid.Row="0"
                     Grid.Column="2"
                     Click="OnClick_AttackMonster"
                     Content="Use" />
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    MinWidth="150px"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding CurrentPlayer.Consumables}"
+                    SelectedItem="{Binding CurrentPlayer.CurrentConsumable}"
+                    Visibility="{Binding CurrentPlayer.HasConsumable, Converter={StaticResource BooleanToVisibility}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Click="OnClick_UseCurrentConsumable"
+                    Content="Use"
+                    Visibility="{Binding CurrentPlayer.HasConsumable, Converter={StaticResource BooleanToVisibility}}" />
             </Grid>
             <!--  Movement  -->
             <Grid Grid.Row="0" Grid.Column="1">
