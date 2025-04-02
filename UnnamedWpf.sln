@@ -6,6 +6,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnnamedWpf", "UnnamedWpf.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "..\Engine\Engine.csproj", "{9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestEngine", "..\TestEngine\TestEngine.csproj", "{F5AE6E3A-7758-4C4C-AFF7-44706E0EB4E1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6} = {9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +25,10 @@ Global
 		{9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E05C32F-9DD6-E321-AA79-8ACFEE76EEC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5AE6E3A-7758-4C4C-AFF7-44706E0EB4E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5AE6E3A-7758-4C4C-AFF7-44706E0EB4E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5AE6E3A-7758-4C4C-AFF7-44706E0EB4E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5AE6E3A-7758-4C4C-AFF7-44706E0EB4E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
